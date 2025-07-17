@@ -1,0 +1,54 @@
+;  IRL FlowCode Version: Version 10.0
+;  c1995-2015: Visual Flow Coder by 2LResearch
+;
+;  File Name : fact.cpp.vfc
+;  File Date : 11:16:01 PM - 16:Jul:2025
+
+event(#include <iostream>);// 
+event(#include <stdexcept>);// 
+end();//
+
+input(class Factorial {);// 
+branch();//
+path();// --- 
+path(private:);// 
+set();// Recursive factorial method with exception handling
+
+input(int factorial(int n) {);// 
+branch(if (n <= 1) {);// 
+path();//
+end(return 1;);// 
+path(} else {);// 
+set();// Check for potential overflow before multiplication
+end(return n * factorial(n - 1););// 
+bend(});// 
+end(});//// //
+path(public:);// 
+set();// Constructor that performs the loop
+set(Factorial() {);// 
+loop(for (int i = 2; i <= 8; i++) {);// 
+branch(try {);// 
+path();//
+process(std::cout << "Factorial of " << i << " = " << factorial(i) << std::endl;);// 
+path(} catch (const std::overflow_error&) {);// 
+process(std::cout << " !";);// 
+process(std::cout << std::endl;);// 
+bend(});// 
+lend(});// 
+end(});// 
+bend();//
+end(};);// 
+
+input(int main() {);// 
+set(Factorial f;);// Constructor runs the loop automatically
+end(return 0;);// 
+end(});// 
+
+
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 255 16777215 65280 16777088 16711680 32896 8421504 0 255 255 16777215 4227327 2960640
+;    fact.cpp   //   ;
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 4294965207 4294966352 1541 1042 0 110   162   68    C++.key  0

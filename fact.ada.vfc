@@ -1,0 +1,46 @@
+;  IRL FlowCode Version: Version 10.0
+;  c1995-2015: Visual Flow Coder by 2LResearch
+;
+;  File Name : fact.ada.vfc
+;  File Date : 11:20:47 PM - 16:Jul:2025
+
+set(PRAGMA LIST(Off););//PRAGMA LIST(On);
+generic(WITH Ada.Text_IO; USE Ada.Text_IO;);//
+
+input(PROCEDURE Factorial IS);//
+branch();//
+path();///auto path//
+
+input(FUNCTION Factorial(N : Integer) RETURN Integer IS);//
+output(BEGIN);//
+branch(IF N <= 1 THEN);//
+path();// auto path
+end(RETURN 1;);//
+path(ELSE);//
+generic(RETURN N * Factorial(N - 1););//
+bend(END IF;);//
+branch(EXCEPTION);//
+path(WHEN Numeric_Error =>);//
+generic(Put(" !"););//
+generic(return -1;);//
+bend();//
+end(END Factorial;);//
+path();//
+output(BEGIN);//
+loop(FOR I IN 2 .. 8 LOOP);//
+generic(Put("Factorial of "););//Put("Fatorial de ");
+generic(Put( Integer'IMAGE(I) ););//
+generic(Put(" = "););//Put(" e' ");
+generic(Put_Line( Integer'IMAGE( Factorial(I) ) ););//
+lend(END LOOP;);//
+bend();//
+end(END Factorial;);//
+
+
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 0 13158600 0 0 13158600 6579300 0 16777215 0 0 0 0 65535
+;    fact.ada   //   ;
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 4294965502 4294966453 1054 810 22 100   405   69    NoKey  0
