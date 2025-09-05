@@ -1,0 +1,124 @@
+# set 
+# set 
+import pygame# event 
+import sys# event 
+import random# event 
+pygame.init()# set 
+WIDTH, HEIGHT = 800, 600# set 
+PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100# set 
+BALL_SIZE = 15# set 
+PADDLE_SPEED = 10# set 
+BALL_SPEED_X, BALL_SPEED_Y = 7, 7# set 
+WHITE = (255, 255, 255)# set 
+BLACK = (0, 0, 0)# set 
+FPS = 60# set 
+screen = pygame.display.set_mode((WIDTH, HEIGHT))# set 
+pygame.display.set_caption("Python Ping Pong")# set 
+clock = pygame.time.Clock()# set 
+player_paddle = pygame.Rect(50, HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT)# set 
+opponent_paddle = pygame.Rect(WIDTH - 50 - PADDLE_WIDTH, HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT)# set 
+ball = pygame.Rect(WIDTH // 2 - BALL_SIZE // 2, HEIGHT // 2 - BALL_SIZE // 2, BALL_SIZE, BALL_SIZE)# set 
+ball_speed_x = BALL_SPEED_X * random.choice((1, -1))# set 
+ball_speed_y = BALL_SPEED_Y * random.choice((1, -1))# set 
+player_score = 0# set 
+opponent_score = 0# set 
+font = pygame.font.Font(None, 74)# set 
+def reset_ball():# input 
+	ball.center = (WIDTH // 2, HEIGHT // 2)# set 
+	global ball_speed_x, ball_speed_y# set 
+	ball_speed_x *= random.choice((1, -1))# set 
+	ball_speed_y *= random.choice((1, -1))# set 
+		# set  # end 
+def ball_animation():# input 
+	global ball_speed_x, ball_speed_y, player_score, opponent_score# set 
+	ball.x += ball_speed_x# set 
+	ball.y += ball_speed_y# set 
+	if ball.top <= 0 or ball.bottom >= HEIGHT:# branch  
+
+# path
+		ball_speed_y *= -1# set 
+		pygame.mixer.Sound.play(pong_sound)# set 
+				# set  # bend 
+	if ball.colliderect(player_paddle) or ball.colliderect(opponent_paddle):# branch  
+
+# path
+		ball_speed_x *= -1# set 
+		pygame.mixer.Sound.play(pong_sound)# set 
+				# set  # bend 
+	if ball.left <= 0:# branch  
+
+# path
+		opponent_score += 1# set 
+		pygame.mixer.Sound.play(score_sound)# set 
+		reset_ball()# set 
+				# set  # bend 
+	if ball.right >= WIDTH:# branch  
+
+# path
+		player_score += 1# set 
+		pygame.mixer.Sound.play(score_sound)# set 
+		reset_ball()# set 
+				# set  # bend 
+		# set  # end 
+def player_animation():# input 
+	keys = pygame.key.get_pressed()# set 
+	if keys[pygame.K_UP] and player_paddle.top > 0:# branch  
+
+# path
+		player_paddle.y -= PADDLE_SPEED# set 
+				# set  # bend 
+	if keys[pygame.K_DOWN] and player_paddle.bottom < HEIGHT:# branch  
+
+# path
+		player_paddle.y += PADDLE_SPEED# set 
+				# set  # bend 
+		# set  # end 
+def opponent_ai():# input 
+	if opponent_paddle.top < ball.y:# branch  
+
+# path
+		opponent_paddle.y += PADDLE_SPEED - 2# set 
+				# set  # bend 
+	if opponent_paddle.bottom > ball.y:# branch  
+
+# path
+		opponent_paddle.y -= PADDLE_SPEED - 2# set 
+				# set  # bend 
+	if opponent_paddle.top <= 0:# branch  
+
+# path
+		opponent_paddle.top = 0# set 
+				# set  # bend 
+	if opponent_paddle.bottom >= HEIGHT:# branch  
+
+# path
+		opponent_paddle.bottom = HEIGHT# set 
+				# set  # bend 
+		# set  # end 
+pong_sound = pygame.mixer.Sound("pong.wav")  # You'll need this sound file# set 
+score_sound = pygame.mixer.Sound("score.wav")  # You'll need this sound file# set 
+while True:# loop 
+	for event in pygame.event.get():# loop 
+		if event.type == pygame.QUIT:# branch  
+
+# path
+			pygame.quit()# set 
+			sys.exit()# set 
+						# set  # bend 
+				# set  # lend 
+	ball_animation()# set 
+	player_animation()# set 
+	opponent_ai()# set 
+	screen.fill(BLACK)# set 
+	pygame.draw.rect(screen, WHITE, player_paddle)# set 
+	pygame.draw.rect(screen, WHITE, opponent_paddle)# set 
+	pygame.draw.ellipse(screen, WHITE, ball)# set 
+	pygame.draw.aaline(screen, WHITE, (WIDTH // 2, 0), (WIDTH // 2, HEIGHT))# set 
+	player_text = font.render(str(player_score), True, WHITE)# set 
+	opponent_text = font.render(str(opponent_score), True, WHITE)# set 
+	screen.blit(player_text, (WIDTH // 4, 20))# set 
+	screen.blit(opponent_text, (3 * WIDTH // 4 - opponent_text.get_width(), 20))# set 
+	pygame.display.flip()# set 
+	clock.tick(FPS)# set 
+# lend
+# end

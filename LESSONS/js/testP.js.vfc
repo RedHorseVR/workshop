@@ -1,0 +1,114 @@
+;  IRL FlowCode Version: Version 10.0
+;  c1995-2015: Visual Flow Coder by 2LResearch
+;
+;  File Name : testP.js.vfc
+;  File Date : 07:48:20 PM - 06:Aug:2025
+
+set();//  // set
+set();//  // set
+
+input(function showLineInfo(message = '') {);//  // input
+set(const e = new Error(););//  // set
+set(const stack = e.stack.split('\n'););//  // set
+set(const lineInfo = stack[2].trim(););//  // set
+set(console.log(`${message} LINE Executing at: ${lineInfo}`););//  // set
+end(});//  // set
+
+input(async function getCredentials() {);//  // input
+branch(try {);//  // branch
+path();//
+set(const response = await fetch(addAPIKEY('/api/get-credentials'), {);//  // set
+set(headers: { 'Cache-Control': 'no-cache' },);//  // set
+set(}););//  // set
+branch(if (!response.ok) {);//  // branch
+path();//
+set(throw new Error('Network response was not ok'););//  // set
+bend();//  // bend
+set(});//  // set
+set(const text = await response.text(););//  // set
+set(let data = JSON.parse(text););//  // set
+set(let L = data.result.length;);//  // set
+branch(if (data.result[L - 1].type === 'BLANK') {);//  // branch
+path();//
+end(return JSON.parse('[]'););//  // end
+set();//  // set
+path(} else {);//  // path
+end(return data.result;);//  // end
+bend();//  // bend
+set(});//  // set
+set();//  // set
+path(} catch (error) {);//  // path
+set(console.info('EMPTY WALLET ON SERVER :', error););//  // set
+end(return JSON.parse('[]'););//  // end
+end();//  // end
+set();//
+bend(});//  // set
+generic();//  //
+end(});//  // set
+
+input(async function Confirmation(prompt, callback) {);//  // input
+set(var result = confirm(prompt););//  // set
+branch(if (result) {);//  // branch
+path();//
+end(return callback(););//  // end
+set();//  // set
+path(} else {);//  // path
+set(ReLoad(););//  // set
+end(return;);//  // set
+bend(});//  // set
+end(});//  // set
+
+input(function togglePopup(message) {);//  // input
+set(var popup = document.getElementById('myPopup'););//  // set
+set(popup.classList.toggle('show'););//  // set
+end(});//  // set
+
+input(function toggleHelp(ID) {);//  // input
+set(alert('help toggle ' + ID););//  // set
+set(var popup = document.getElementById(ID););//  // set
+set(popup.classList.toggle('show'););//  // set
+end(});//  // set
+set(let userData;);//  // set
+
+input(async function loadJsonFile() {);//  // input
+branch(try {);//  // branch
+path();//
+set(const response = await fetch(JSON_FILE););//  // set
+branch(if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`););//  // branch
+path();//
+set(data = await response.json(););//  // set
+set(window.credentials = data;);//  // set
+end(return true;);//  // end
+set();//  // set
+path(} catch (error) {);//  // path
+set(console.error(`INFO Error loading JSON:`, error););//  // set
+set(showLineInfo(););//  // set
+set(sessionStorage.setItem('sessionAIprocessing', 'false'););//  // set
+end(return false;);//  // end
+bend();//  // bend
+set(});//  // set
+bend();//  // bend
+end(});//  // set
+
+input(function updateChecked(user) {);//  // input
+set(hitEndPoint('/api/update-checked-credentials', USER_ID, [], true););//  // set
+set(console.error('update-checked-credentials FileStates:', FileStates););//  // set
+set(AI_process_Data(););//  // set
+set(setTimeout(function () {);//  // set
+set(location.reload(););//  // set
+set(}, 1000););//  // set
+end(});//  // set
+
+input(window.onload = async function init() {);//  // set
+set(return;);//  // set
+end(};);//  // set
+end();//  // end
+
+
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 255 16777215 65280 16777088 16711680 13158600 16711935 0 255 255 9895835 6946660 5308416
+;    testp.js   //   ...
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 474 110 1560 1106 37 134   733   4294967057    javascript.key  0

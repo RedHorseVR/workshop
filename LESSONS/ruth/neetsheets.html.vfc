@@ -1,0 +1,94 @@
+set(<!DOCTYPE html>);// 
+set(<html lang="en">);// 
+set(<head>);// 
+set(<meta charset="UTF-8">);// 
+set(<title>Room Attendant Injury Tracker</title>);// 
+set(<style>);// 
+set(body { font-family: Arial, sans-serif; padding: 20px; });// 
+set(.section { margin-bottom: 20px; });// 
+set(label, select, input { display: block; margin: 5px 0; });// 
+set(#results { font-weight: bold; margin-top: 20px; });// 
+set(</style>);// 
+set(</head>);// 
+set(<body>);// 
+set(<h1>Room Attendant Injury Tracker</h1>);// 
+set(<div class="section">);// 
+set(<label>Attendant Cost ($):</label>);// 
+set(<input type="number" id="attendantCost" />);// 
+set(<label>Was the attendant injured?</label>);// 
+set(<select id="injured">);// 
+set(<option value="no">No</option>);// 
+set(<option value="yes">Yes</option>);// 
+set(</select>);// 
+set(<div id="injuryDetails" style="display:none;">);// 
+set(<label>How were they injured?</label>);// 
+set(<select id="injuryCause">);// 
+set(<option value="mattress lifting">Mattress Lifting</option>);// 
+set(<option value="pulling fitted sheets">Pulling Fitted Sheets</option>);// 
+set(<option value="bending and lifting">Bending and Lifting</option>);// 
+set(</select>);// 
+set(<label>Type of Injury:</label>);// 
+set(<select id="injuryType">);// 
+set(<option value="shoulder">Shoulder ($4000)</option>);// 
+set(<option value="back">Back ($7000)</option>);// 
+set(<option value="neck">Neck ($5500)</option>);// 
+set(</select>);// 
+set(</div>);// 
+set(<button onclick="addAttendant()">Add Attendant</button>);// 
+set(</div>);// 
+set(<div class="section">);// 
+set(<button onclick="calculateLosses()">Calculate Total Losses</button>);// 
+set(<div id="results"></div>);// 
+set(</div>);// 
+set(<script>);// 
+set(let totalCost = 0;);// 
+set(let totalHours = 0;);// 
+set(let totalLosses = 0;);// 
+set(let attendants = 0;);// 
+set(document.getElementById("injured").addEventListener("change", function() {);// 
+set(document.getElementById("injuryDetails").style.display = this.value === "yes" ? "block" : "none";);// 
+set(}););// 
+input(function addAttendant() {);// 
+set(const cost = parseFloat(document.getElementById("attendantCost").value) || 0;);// 
+set(const injured = document.getElementById("injured").value;);// 
+set(let compCost = 0;);// 
+branch(if (injured === "yes") {);// 
+path();//
+set(const injuryType = document.getElementById("injuryType").value;);// 
+branch(if (injuryType === "shoulder") compCost = 4000;);// 
+path();//
+bend();//
+path(else if (injuryType === "back") compCost = 7000;);// 
+path(else if (injuryType === "neck") compCost = 5500;);// 
+bend(});// 
+set(totalCost += cost + compCost;);// 
+set(totalHours += 8;);// 
+set(totalLosses += compCost;);// 
+set(attendants++;);// 
+set(alert(`Attendant added. Workers comp cost: $${compCost}`););// 
+set(document.getElementById("attendantCost").value = "";);// 
+end(});// 
+input(function calculateLosses() {);// 
+set(let result = `);// 
+set(Total Attendants: ${attendants}<br>);// 
+set(Total Workers Comp Losses: $${totalLosses}<br>);// 
+set(Total Hours Lost: ${totalHours} hours (${totalHours / 8} days)<br>);// 
+set(`;);// 
+branch(if (totalLosses > 10000) {);// 
+path();//
+set(result += `<br><strong>Corporate Alert:</strong> CEO will schedule a call.`;);// 
+path(} else {);// 
+set(result += `<br><strong>Corporate Alert:</strong> No call scheduled.`;);// 
+bend(});// 
+set(document.getElementById("results").innerHTML = result;);// 
+end(});// 
+set(</script>);// 
+set(</body>);// 
+set(</html>);// 
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 255 16777215 65280 16777088 16711680 32896 8421504 0 255 255 16777215 4227327 2960640
+; neetsheets.html // 
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 880 168 766 1516 0 110   392   31 C++.key  0

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Workers Comp Estimator (Multi-Attendant)</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    label { display: block; margin-top: 1em; font-weight: bold; }
+    input[type="radio"], input[type="number"] { margin-right: 0.5em; margin-top: 0.5em; }
+    fieldset { margin-top: 1.5em; padding: 1em; border: 1px solid #ccc; }
+    legend { font-weight: bold; }
+    .result { margin-top: 2em; font-size: 1.2em; font-weight: bold; color: darkgreen; }
+    .button { margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h2>Estimate Workers Compensation Costs for Multiple Attendants</h2>
+  <div id="formContainer"></div>
+  <div class="result" id="finalResult"></div>
+
+  <script>
+    let attendants = [];
+
+    function createAttendantForm(index) {
+      const form = document.createElement("form");
+      form.className = "attendant-form";
+      form.dataset.index = index;
+
+      const fieldset = document.createElement("fieldset");
+      const legend = document.createElement("legend");
+      legend.textContent = `Attendant #${index + 1}`;
+      fieldset.appendChild(legend);
+
+      // Attendant Cost
+      const costLabel = document.createElement("label");
+      costLabel.textContent = "Hourly Attendant Cost ($):";
+      const costInput = document.createElement("input");
+      costInput.type = "number";
+      costInput.name = "attendant_cost";
+      costInput.required = true;
+      fieldset.appendChild(costLabel);
+      fieldset.appendChild(costInput);
+
+      // Was Injured?
+      const injuredLabel = document.createElement("label");
+      injuredLabel.textContent = "Was the room attendant injured?";
+      fieldset.appendChild(injuredLabel);
+      ["Yes", "No"].forEach(option => {
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `injured_${index}`;
+        radio.value = option;
+        radio.required = true;
+        radio.onchange = () => renderInjuryCause(option === "Yes", fieldset, index);
+        fieldset.appendChild(radio);
+        fieldset.appendChild(document.createTextNode(option));
+      });
+
+      form.appendChild(fieldset);
+      return form;
+    }
+
+    function renderInjuryCause(show, container, index) {
+      removeNextSteps(container, 1);
+
+      if (!show) {
+        storeAttendantResult(index, 0);
+        return;
+      }
+
+      const injuryLabel = document.createElement("label");
+      injuryLabel.textContent = "How were they injured?";
+      injuryLabel.className = "depth-1";
+      container.appendChild(injuryLabel);
+
+      ["Mattress lifting", "Pulling fitted sheets", "Bending and lifting"].forEach(cause => {
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `injury_cause_${index}`;
+        radio.value = cause;
+        radio.className = "depth-1";
+        radio.onchange = () => renderInjuryType(container, index);
+        container.appendChild(radio);
+        container.appendChild(document.createTextNode(cause));
+      });
+    }
+
+    function renderInjuryType(container, index) {
+      removeNextSteps(container, 2);
+
+      const typeLabel = document.createElement("label");
+      typeLabel.textContent = "What type of injury?";
+      typeLabel.className = "depth-2";
+      container.appendChild(typeLabel);
+
+      const options = {
+        "Shoulder": 4000,
+        "Back": 7000,
+        "Neck": 5500
+      };
+
+      for (const [type, cost] of Object.entries(options)) {
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `injury_type_${index}`;
+        radio.value = type;
+        radio.className = "depth-2";
+        radio.onchange = () => storeAttendantResult(index, cost);
+        container.appendChild(radio);
+        container.appendChild(document.createTextNode(`${type} ($${cost})`));
+      }
+    }
+
+    function removeNextSteps(container, depth) {
+      const toRemove = container.querySelectorAll(`.depth-${depth}, .depth-${depth + 1}`);
+      toRemove.forEach(e => e.remove());
+    }
+
+    function storeAttendantResult(index, cost) {
+      const form = document.querySelectorAll(".attendant-form")[index];
+      const hourly = parseFloat(form.querySelector("input[name='attendant_cost']").value || 0);
+      attendants[index] = { cost, hourly };
+    }
+
+    function addAnotherAttendant() {
+      const container = document.getElementById("formContainer");
+      const form = createAttendantForm(attendants.length);
+      container.appendChild(form);
+      attendants.push({});
+    }
+
+    function calculateTotalLosses() {
+      let totalCost = 0;
+      let totalHours = 0;
+
+      for (const a of attendants) {
+        if (!a || a.cost == null || isNaN(a.hourly)) continue;
+        totalCost += a.cost;
+        totalHours += a.cost / a.hourly;
+      }
+
+      const result = document.getElementById("finalResult");
+      result.innerHTML = `
+        <div>Total Estimated Workers Compensation Cost: <strong>$${totalCost.toFixed(2)}</strong></div>
+        <div>Estimated Lost Labor Hours: <strong>${Math.round(totalHours)}</strong> hours</div>
+      `;
+    }
+
+    // Init UI
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("formContainer");
+
+      const addButton = document.createElement("button");
+      addButton.textContent = "Add Another Attendant";
+      addButton.type = "button";
+      addButton.className = "button";
+      addButton.onclick = addAnotherAttendant;
+
+      const calcButton = document.createElement("button");
+      calcButton.textContent = "Calculate Total Losses";
+      calcButton.type = "button";
+      calcButton.className = "button";
+      calcButton.onclick = calculateTotalLosses;
+
+      container.appendChild(addButton);
+      container.appendChild(calcButton);
+
+      addAnotherAttendant(); // start with one attendant
+    });
+  </script>
+</body>
+</html>

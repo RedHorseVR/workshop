@@ -1,0 +1,215 @@
+# set 
+# set 
+import pygame# event 
+import random# event 
+import sys# event 
+pygame.init()# set 
+WIDTH, HEIGHT = 600, 600# set 
+GRID_SIZE = 20# set 
+GRID_WIDTH = WIDTH // GRID_SIZE# set 
+GRID_HEIGHT = HEIGHT // GRID_SIZE# set 
+FPS = 10# set 
+BLACK = (0, 0, 0)# set 
+WHITE = (255, 255, 255)# set 
+GREEN = (0, 255, 0)# set 
+RED = (255, 0, 0)# set 
+BLUE = (0, 0, 255)# set 
+ORANGE = (255, 165, 0)# set 
+YELLOW = (255, 255, 0)# set 
+screen = pygame.display.set_mode((WIDTH, HEIGHT))# set 
+pygame.display.set_caption("Snake Game with Exploding Food")# set 
+clock = pygame.time.Clock()# set 
+class Snake:# input 
+# branch 
+# path 
+# path 
+	def __init__(self):# input 
+		self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]# set 
+		self.direction = (1, 0)# set 
+		self.growth_pending = 0# set 
+		self.score = 0# set 
+		self.game_over = False# set 
+				# set  # end 
+	def get_head_position(self):# input 
+		return self.positions[0]# end 
+				# set  # end 
+	def update(self):# input 
+		if self.game_over:# branch  
+
+# path
+			return# set 
+						# set  # bend 
+		head_x, head_y = self.get_head_position()# set 
+		dir_x, dir_y = self.direction# set 
+		new_x = (head_x + dir_x) % GRID_WIDTH# set 
+		new_y = (head_y + dir_y) % GRID_HEIGHT# set 
+		if (new_x, new_y) in self.positions[1:]:# branch  
+
+# path
+			self.game_over = True# set 
+			return# set 
+						# set  # bend 
+		self.positions.insert(0, (new_x, new_y))# set 
+		if self.growth_pending > 0:# branch  
+
+# path
+			self.growth_pending -= 1# set 
+			# set 
+			else:# path 
+			self.positions.pop()# set 
+						# set  # bend 
+				# set  # end 
+	def change_direction(self, direction):# input 
+		if (direction[0] * -1, direction[1] * -1) != self.direction:# branch  
+
+# path
+			self.direction = direction# set 
+						# set  # bend 
+				# set  # end 
+	def grow(self, amount=1):# input 
+		self.growth_pending += amount# set 
+		self.score += amount# set 
+				# set  # end 
+	def draw(self, surface):# input 
+		for i, (x, y) in enumerate(self.positions):# loop 
+			color = GREEN if i > 0 else BLUE# set 
+			rect = pygame.Rect(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE)# set 
+			pygame.draw.rect(surface, color, rect)# set 
+			pygame.draw.rect(surface, BLACK, rect, 1)# set 
+						# set  # lend 
+				# set  # end 
+		# set  # bend 
+class Food:# input 
+# branch 
+# path 
+# path 
+	def __init__(self):# input 
+		self.position = (0, 0)# set 
+		self.color = RED# set 
+		self.relocate()# set 
+				# set  # end 
+	def relocate(self):# input 
+		self.position = (random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1))# set 
+				# set  # end 
+	def draw(self, surface):# input 
+		rect = pygame.Rect(self.position[0] * GRID_SIZE, self.position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE)# set 
+		pygame.draw.rect(surface, self.color, rect)# set 
+		pygame.draw.rect(surface, BLACK, rect, 1)# set 
+				# set  # end 
+		# set  # bend 
+class Explosion:# input 
+# branch 
+# path 
+# path 
+	def __init__(self, position):# input 
+		self.position = position# set 
+		self.radius = 0# set 
+		self.max_radius = GRID_SIZE * 3# set 
+		self.growth_rate = 2# set 
+		self.color = ORANGE# set 
+		self.active = True# set 
+				# set  # end 
+	def update(self):# input 
+		if not self.active:# branch  
+
+# path
+			return# set 
+						# set  # bend 
+		self.radius += self.growth_rate# set 
+		if self.radius >= self.max_radius:# branch  
+
+# path
+			self.active = False# set 
+						# set  # bend 
+				# set  # end 
+	def draw(self, surface):# input 
+		if not self.active:# branch  
+
+# path
+			return# set 
+						# set  # bend 
+		pygame.draw.circle(surface, self.color, (self.position[0] * GRID_SIZE + GRID_SIZE // 2, self.position[1] * GRID_SIZE + GRID_SIZE // 2), self.radius)# set 
+				# set  # end 
+		# set  # bend 
+def draw_text(surface, text, size, x, y, color=WHITE):# input 
+	font = pygame.font.Font(None, size)# set 
+	text_surface = font.render(text, True, color)# set 
+	text_rect = text_surface.get_rect()# set 
+	text_rect.midtop = (x, y)# set 
+	surface.blit(text_surface, text_rect)# set 
+		# set  # end 
+def main():# input 
+	snake = Snake()# set 
+	food = Food()# set 
+	explosions = []# set 
+	running = True# set 
+	while running:# loop 
+		for event in pygame.event.get():# loop 
+			if event.type == pygame.QUIT:# branch  
+
+# path
+				running = False# set 
+				# set 
+				elif event.type == pygame.KEYDOWN:# path 
+				if event.key == pygame.K_UP:# branch  
+
+# path
+					snake.change_direction((0, -1))# set 
+					# set 
+					elif event.key == pygame.K_DOWN:# path 
+					snake.change_direction((0, 1))# set 
+					# set 
+					elif event.key == pygame.K_LEFT:# path 
+					snake.change_direction((-1, 0))# set 
+					# set 
+					elif event.key == pygame.K_RIGHT:# path 
+					snake.change_direction((1, 0))# set 
+					# set 
+					elif event.key == pygame.K_r and snake.game_over:# path 
+					snake = Snake()# set 
+					food = Food()# set 
+					explosions = []# set 
+										# set  # bend 
+								# set  # bend 
+						# set  # lend 
+		if not snake.game_over:# branch  
+
+# path
+			snake.update()# set 
+			if snake.get_head_position() == food.position:# branch  
+
+# path
+				explosions.append(Explosion(food.position))# set 
+				snake.grow()# set 
+				food.relocate()# set 
+								# set  # bend 
+			for explosion in explosions:# loop 
+				explosion.update()# set 
+								# set  # lend 
+			explosions = [e for e in explosions if e.active]# set 
+						# set  # bend 
+		screen.fill(BLACK)# set 
+		for explosion in explosions:# loop 
+			explosion.draw(screen)# set 
+						# set  # lend 
+		snake.draw(screen)# set 
+		food.draw(screen)# set 
+		draw_text(screen, f"Score: {snake.score}", 24, WIDTH // 2, 10)# set 
+		if snake.game_over:# branch  
+
+# path
+			draw_text(screen, "GAME OVER", 48, WIDTH // 2, HEIGHT // 3)# set 
+			draw_text(screen, "Press R to restart", 24, WIDTH // 2, HEIGHT // 2)# set 
+						# set  # bend 
+		pygame.display.flip()# set 
+		clock.tick(FPS)# set 
+				# set  # lend 
+	pygame.quit()# set 
+	sys.exit()# set 
+		# set  # end 
+if __name__ == "__main__":# branch  
+
+# path
+	main()# set 
+# bend
+# end

@@ -1,0 +1,192 @@
+# set 
+# set 
+import pygame# event 
+import sys# event 
+import random# event 
+import time# event 
+pygame.init()# set 
+WIDTH, HEIGHT = 600, 600# set 
+GRID_SIZE = 20# set 
+GRID_WIDTH = WIDTH // GRID_SIZE# set 
+GRID_HEIGHT = HEIGHT // GRID_SIZE# set 
+FPS = 10# set 
+WHITE = (255, 255, 255)# set 
+GREEN = (0, 255, 0)# set 
+RED = (255, 0, 0)# set 
+BLACK = (0, 0, 0)# set 
+DARK_GREEN = (0, 100, 0)# set 
+UP = (0, -1)# set 
+DOWN = (0, 1)# set 
+LEFT = (-1, 0)# set 
+RIGHT = (1, 0)# set 
+screen = pygame.display.set_mode((WIDTH, HEIGHT))# set 
+pygame.display.set_caption("Python Snake Game")# set 
+clock = pygame.time.Clock()# set 
+class Snake:# input 
+# branch 
+# path 
+# path 
+	def __init__(self):# input 
+		self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]# set 
+		self.length = 1# set 
+		self.direction = random.choice([UP, DOWN, LEFT, RIGHT])# set 
+		self.color = GREEN# set 
+		self.score = 0# set 
+		self.game_over = False# set 
+				# set  # end 
+	def get_head_position(self):# input 
+		return self.positions[0]# end 
+				# set  # end 
+	def turn(self, point):# input 
+		if (point[0] * -1, point[1] * -1) == self.direction:# branch  
+
+# path
+			return# set 
+			# set 
+			else:# path 
+			self.direction = point# set 
+						# set  # bend 
+				# set  # end 
+	def move(self):# input 
+		if self.game_over:# branch  
+
+# path
+			return# set 
+						# set  # bend 
+		head = self.get_head_position()# set 
+		x, y = self.direction# set 
+		new_x = (head[0] + x) % GRID_WIDTH# set 
+		new_y = (head[1] + y) % GRID_HEIGHT# set 
+		new_position = (new_x, new_y)# set 
+		if new_position in self.positions[1:]:# branch  
+
+# path
+			self.game_over = True# set 
+			return# set 
+						# set  # bend 
+		self.positions.insert(0, new_position)# set 
+		if len(self.positions) > self.length:# branch  
+
+# path
+			self.positions.pop()# set 
+						# set  # bend 
+				# set  # end 
+	def reset(self):# input 
+		self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]# set 
+		self.length = 1# set 
+		self.direction = random.choice([UP, DOWN, LEFT, RIGHT])# set 
+		self.score = 0# set 
+		self.game_over = False# set 
+				# set  # end 
+	def draw(self, surface):# input 
+		for i, position in enumerate(self.positions):# loop 
+			rect = pygame.Rect(position[0] * GRID_SIZE, position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE)# set 
+			if i == 0:  # Head is a slightly different color# branch  
+
+# path
+				pygame.draw.rect(surface, DARK_GREEN, rect)# set 
+				# set 
+				else:# path 
+				pygame.draw.rect(surface, self.color, rect)# set 
+								# set  # bend 
+			pygame.draw.rect(surface, DARK_GREEN, rect, 1)# set 
+						# set  # lend 
+				# set  # end 
+		# set  # bend 
+class Food:# input 
+# branch 
+# path 
+# path 
+	def __init__(self):# input 
+		self.position = (0, 0)# set 
+		self.color = RED# set 
+		self.randomize_position()# set 
+				# set  # end 
+	def randomize_position(self):# input 
+		self.position = (random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1))# set 
+				# set  # end 
+	def draw(self, surface):# input 
+		rect = pygame.Rect(self.position[0] * GRID_SIZE, self.position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE)# set 
+		pygame.draw.rect(surface, self.color, rect)# set 
+		pygame.draw.rect(surface, WHITE, rect, 1)# set 
+				# set  # end 
+		# set  # bend 
+def draw_grid(surface):# input 
+	for y in range(0, HEIGHT, GRID_SIZE):# loop 
+		for x in range(0, WIDTH, GRID_SIZE):# loop 
+			rect = pygame.Rect(x, y, GRID_SIZE, GRID_SIZE)# set 
+			pygame.draw.rect(surface, WHITE, rect, 1)# set 
+						# set  # lend 
+				# set  # lend 
+		# set  # end 
+def main():# input 
+	snake = Snake()# set 
+	food = Food()# set 
+	font = pygame.font.Font(None, 36)# set 
+	while True:# loop 
+		for event in pygame.event.get():# loop 
+			if event.type == pygame.QUIT:# branch  
+
+# path
+				pygame.quit()# set 
+				sys.exit()# set 
+				# set 
+				elif event.type == pygame.KEYDOWN:# path 
+				if event.key == pygame.K_UP:# branch  
+
+# path
+					snake.turn(UP)# set 
+					# set 
+					elif event.key == pygame.K_DOWN:# path 
+					snake.turn(DOWN)# set 
+					# set 
+					elif event.key == pygame.K_LEFT:# path 
+					snake.turn(LEFT)# set 
+					# set 
+					elif event.key == pygame.K_RIGHT:# path 
+					snake.turn(RIGHT)# set 
+					# set 
+					elif event.key == pygame.K_r and snake.game_over:# path 
+					snake.reset()# set 
+					food.randomize_position()# set 
+										# set  # bend 
+								# set  # bend 
+						# set  # lend 
+		if not snake.game_over:# branch  
+
+# path
+			snake.move()# set 
+						# set  # bend 
+		if snake.get_head_position() == food.position:# branch  
+
+# path
+			snake.length += 1# set 
+			snake.score += 1# set 
+			food.randomize_position()# set 
+			while food.position in snake.positions:# loop 
+				food.randomize_position()# set 
+								# set  # lend 
+						# set  # bend 
+		screen.fill(BLACK)# set 
+		draw_grid(screen)# set 
+		snake.draw(screen)# set 
+		food.draw(screen)# set 
+		score_text = font.render(f"Score: {snake.score}", True, WHITE)# set 
+		screen.blit(score_text, (10, 10))# set 
+		if snake.game_over:# branch  
+
+# path
+			game_over_text = font.render("GAME OVER! Press R to restart", True, WHITE)# set 
+			text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))# set 
+			screen.blit(game_over_text, text_rect)# set 
+						# set  # bend 
+		pygame.display.flip()# set 
+		clock.tick(FPS)# set 
+				# set  # lend 
+		# set  # end 
+if __name__ == "__main__":# branch  
+
+# path
+	main()# set 
+# bend
+# end

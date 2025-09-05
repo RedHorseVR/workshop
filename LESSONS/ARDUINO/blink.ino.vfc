@@ -1,0 +1,38 @@
+;  IRL FlowCode Version: Version 10.0
+;  c1995-2015: Visual Flow Coder by 2LResearch
+;
+;  File Name : blink.ino.vfc
+;  File Date : 05:45:00 PM - 17:Jul:2025
+
+
+input(void setup() {);//// //////
+generic();// // initialize digital pin LED_BUILTIN as an output. //
+generic(pinMode(LED_BUILTIN, OUTPUT););// ////
+end(});//// //////
+set();//// // the loop function runs over and over again forever ////
+
+input(void loop() {);//// //////
+set(int  i=11;);//
+branch(if(  i % 2 == 0  ));//
+path( { );//
+generic(digitalWrite(LED_BUILTIN, HIGH););// // turn the LED on (HIGH is the voltage level) //
+generic(delay(1000););// // wait for a second //
+generic(digitalWrite(LED_BUILTIN, LOW););// // turn the LED off by making the voltage LOW //
+generic(delay(1000););// // wait for a second //
+path( }else{ );//
+generic(digitalWrite(LED_BUILTIN, HIGH););// // turn the LED on (HIGH is the voltage level) //
+generic(delay(100););// // wait for a second //
+generic(digitalWrite(LED_BUILTIN, LOW););// // turn the LED off by making the voltage LOW //
+generic(delay(100););// // wait for a second //
+bend( } );//
+end(});//// //////
+set();// // the setup function runs once when you press reset or power the board //
+
+
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 255 16777215 65280 16777088 16711680 13158600 13158600 0 255 255 9895835 6946660 3289650
+;    blink.ino   //   ;
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 699 4294963114 1215 1264 7 200   596   133    ino.key  0

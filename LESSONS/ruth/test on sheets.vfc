@@ -1,0 +1,62 @@
+;  IRL FlowCode Version: Version 10.0
+;  c1995-2015: Visual Flow Coder by 2LResearch
+;
+;  File Name : test on sheets.vfc
+;  File Date : 06:20:36 PM - 04:Sep:2025
+
+end(Please make the folowing flowchart into a web page);//
+
+input(MAIN);//
+loop(FOR EACH ATTENDANT);//
+process(attendent_cost);//
+lend(add another);//
+process(calcluate total losses from workers comp as dollars and hours and 8 hour days);//
+process( see if Corporate will call);//
+end();//
+
+input(popup attendant_cost);//
+branch(injured room attendent ?);//
+path(yes);//
+branch(how where they injured  ?);//
+path(mattress lifting);//
+path(pulling fitted sheets);//
+path(bending and lifting);//
+bend( );//
+branch(what type of injury ?);//
+path(shoulder);//
+set(workers compensation cost   is);//////
+process(GET COST( Shoulder ));//
+path(back);//
+set(workers compensation cost   is);//////
+process(GET COST( Back ));//
+path(neck);//
+set(workers compensation cost   is);//////
+process(GET COST( Neck ));//
+bend( );//
+path(else: );//
+output(no cost);//
+bend( );//
+end();//
+
+input(Corporate);//
+branch(if    total losses are greater than 10000  :);//
+path();//
+output(CEO will schedule a call);//
+bend( );//
+end(   );//
+
+input(GET COST( INJURY ));//
+branch(WITH INJURY TYPE AND PDF DOCUMENT   :);//
+path(try to keep costs by individual workes comp and insurce rates);//
+output(LOOK FOR COST OF INJURY);//
+bend( );//
+end(RETURN INJUTY COST);//
+
+
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 255 16777215 65280 16777088 16711680 13158600 13158600 0 255 255 9895835 6946660 3289650
+;    #   #   .
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 398 4294965635 1086 1393 8 148   946   4294966649    python.key  0

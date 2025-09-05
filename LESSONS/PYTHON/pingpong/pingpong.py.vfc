@@ -1,0 +1,114 @@
+ set();//  # set
+ set();//  # set
+ event(import pygame);//  # event
+ event(import sys);//  # event
+ event(import random);//  # event
+ set(pygame.init());//  # set
+ set(WIDTH, HEIGHT = 800, 600);//  # set
+ set(PADDLE_WIDTH, PADDLE_HEIGHT = 20, 100);//  # set
+ set(BALL_SIZE = 15);//  # set
+ set(PADDLE_SPEED = 10);//  # set
+ set(BALL_SPEED_X, BALL_SPEED_Y = 7, 7);//  # set
+ set(WHITE = (255, 255, 255));//  # set
+ set(BLACK = (0, 0, 0));//  # set
+ set(FPS = 60);//  # set
+ set(screen = pygame.display.set_mode((WIDTH, HEIGHT)));//  # set
+ set(pygame.display.set_caption("Python Ping Pong"));//  # set
+ set(clock = pygame.time.Clock());//  # set
+ set(player_paddle = pygame.Rect(50, HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT));//  # set
+ set(opponent_paddle = pygame.Rect(WIDTH - 50 - PADDLE_WIDTH, HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT));//  # set
+ set(ball = pygame.Rect(WIDTH // 2 - BALL_SIZE // 2, HEIGHT // 2 - BALL_SIZE // 2, BALL_SIZE, BALL_SIZE));//  # set
+ set(ball_speed_x = BALL_SPEED_X * random.choice((1, -1)));//  # set
+ set(ball_speed_y = BALL_SPEED_Y * random.choice((1, -1)));//  # set
+ set(player_score = 0);//  # set
+ set(opponent_score = 0);//  # set
+ set(font = pygame.font.Font(None, 74));//  # set
+ input(def reset_ball():);//  # input
+ set(ball.center = (WIDTH // 2, HEIGHT // 2));//  # set
+ set(global ball_speed_x, ball_speed_y);//  # set
+ set(ball_speed_x *= random.choice((1, -1)));//  # set
+ set(ball_speed_y *= random.choice((1, -1)));//  # set
+ end();//  # set  # end
+ input(def ball_animation():);//  # input
+ set(global ball_speed_x, ball_speed_y, player_score, opponent_score);//  # set
+ set(ball.x += ball_speed_x);//  # set
+ set(ball.y += ball_speed_y);//  # set
+ branch(if ball.top <= 0 or ball.bottom >= HEIGHT:);//  # branch
+ path();//  # path
+ set(ball_speed_y *= -1);//  # set
+ set(pygame.mixer.Sound.play(pong_sound));//  # set
+ bend();//  # set  # bend
+ branch(if ball.colliderect(player_paddle) or ball.colliderect(opponent_paddle):);//  # branch
+ path();//  # path
+ set(ball_speed_x *= -1);//  # set
+ set(pygame.mixer.Sound.play(pong_sound));//  # set
+ bend();//  # set  # bend
+ branch(if ball.left <= 0:);//  # branch
+ path();//  # path
+ set(opponent_score += 1);//  # set
+ set(pygame.mixer.Sound.play(score_sound));//  # set
+ set(reset_ball());//  # set
+ bend();//  # set  # bend
+ branch(if ball.right >= WIDTH:);//  # branch
+ path();//  # path
+ set(player_score += 1);//  # set
+ set(pygame.mixer.Sound.play(score_sound));//  # set
+ set(reset_ball());//  # set
+ bend();//  # set  # bend
+ end();//  # set  # end
+ input(def player_animation():);//  # input
+ set(keys = pygame.key.get_pressed());//  # set
+ branch(if keys[pygame.K_UP] and player_paddle.top > 0:);//  # branch
+ path();//  # path
+ set(player_paddle.y -= PADDLE_SPEED);//  # set
+ bend();//  # set  # bend
+ branch(if keys[pygame.K_DOWN] and player_paddle.bottom < HEIGHT:);//  # branch
+ path();//  # path
+ set(player_paddle.y += PADDLE_SPEED);//  # set
+ bend();//  # set  # bend
+ end();//  # set  # end
+ input(def opponent_ai():);//  # input
+ branch(if opponent_paddle.top < ball.y:);//  # branch
+ path();//  # path
+ set(opponent_paddle.y += PADDLE_SPEED - 2);//  # set
+ bend();//  # set  # bend
+ branch(if opponent_paddle.bottom > ball.y:);//  # branch
+ path();//  # path
+ set(opponent_paddle.y -= PADDLE_SPEED - 2);//  # set
+ bend();//  # set  # bend
+ branch(if opponent_paddle.top <= 0:);//  # branch
+ path();//  # path
+ set(opponent_paddle.top = 0);//  # set
+ bend();//  # set  # bend
+ branch(if opponent_paddle.bottom >= HEIGHT:);//  # branch
+ path();//  # path
+ set(opponent_paddle.bottom = HEIGHT);//  # set
+ bend();//  # set  # bend
+ end();//  # set  # end
+ set(pong_sound = pygame.mixer.Sound("pong.wav"));//  # You'll need this sound file# set
+ set(score_sound = pygame.mixer.Sound("score.wav"));//  # You'll need this sound file# set
+ loop(while True:);//  # loop
+ loop(for event in pygame.event.get():);//  # loop
+ branch(if event.type == pygame.QUIT:);//  # branch
+ path();//  # path
+ set(pygame.quit());//  # set
+ set(sys.exit());//  # set
+ bend();//  # set  # bend
+ lend();//  # set  # lend
+ set(ball_animation());//  # set
+ set(player_animation());//  # set
+ set(opponent_ai());//  # set
+ set(screen.fill(BLACK));//  # set
+ set(pygame.draw.rect(screen, WHITE, player_paddle));//  # set
+ set(pygame.draw.rect(screen, WHITE, opponent_paddle));//  # set
+ set(pygame.draw.ellipse(screen, WHITE, ball));//  # set
+ set(pygame.draw.aaline(screen, WHITE, (WIDTH // 2, 0), (WIDTH // 2, HEIGHT)));//  # set
+ set(player_text = font.render(str(player_score), True, WHITE));//  # set
+ set(opponent_text = font.render(str(opponent_score), True, WHITE));//  # set
+ set(screen.blit(player_text, (WIDTH // 4, 20)));//  # set
+ set(screen.blit(opponent_text, (3 * WIDTH // 4 - opponent_text.get_width(), 20)));//  # set
+ set(pygame.display.flip());//  # set
+ set(clock.tick(FPS));//  # set
+ lend();//  # lend
+ end();//  # end
+;INSECTA EMBEDDED SESSION INFORMATION; 255 16777215 65280 16777088 16711680 13158600 13158600 0 255 255 9895835 6946660 16384;    pingpong.py . ; notepad.exe;INSECTA EMBEDDED ALTSESSION INFORMATION; 389 43 901 2029 59 89   344   63    python.key  0

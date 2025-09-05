@@ -1,0 +1,25 @@
+;  IRL FlowCode Version: Version 10.0
+;  c1995-2015: Visual Flow Coder by 2LResearch
+;
+;  File Name : hello.py.vfc
+;  File Date : 08:08:48 PM - 06:Aug:2025
+
+
+input(def main():);//
+loop(for j in range( 0, 10 ):);//
+output(print( '------------------------------------------------') );//
+lend( );//
+end( );//
+branch(if __name__ == '__main__':);//
+path();//
+process(main());//
+bend( );//
+
+
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 255 16777215 65280 16777088 16711680 13158600 13158600 0 255 255 9895835 6946660 3289650
+;    hello.py   #   .
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 182 166 1435 1052 8 300   799   55    python.key  0

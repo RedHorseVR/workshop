@@ -1,0 +1,209 @@
+;  IRL FlowCode Version: Version 10.0
+;  c1995-2015: Visual Flow Coder by 2LResearch
+;
+;  File Name : snake.py.vfc
+;  File Date : 01:24:48 AM - 17:Jul:2025
+
+set();//  # set
+set();//  # set
+event(import pygame);//  # event
+event(import sys);//  # event
+event(import random);//  # event
+event(import time);//  # event
+set(pygame.init());//  # set
+set(WIDTH, HEIGHT = 600, 600);//  # set
+set(GRID_SIZE = 20);//  # set
+set(GRID_WIDTH = WIDTH // GRID_SIZE);//  # set
+set(GRID_HEIGHT = HEIGHT // GRID_SIZE);//  # set
+set(FPS = 10);//  # set
+set(WHITE = (255, 255, 255));//  # set
+set(GREEN = (0, 0, 255));//  # set
+set(RED = (255, 0, 0));//  # set
+set(BLACK = (0, 0, 0));//  # set
+set(DARK_GREEN = (0, 100, 0));//  # set
+set(UP = (0, -1));//  # set
+set(DOWN = (0, 1));//  # set
+set(LEFT = (-1, 0));//  # set
+set(RIGHT = (1, 0));//  # set
+set(screen = pygame.display.set_mode((WIDTH, HEIGHT)));//  # set
+set(pygame.display.set_caption("Python Snake Game"));//  # set
+set(clock = pygame.time.Clock());//  # set
+
+input(class Snake:);//  # input
+branch();//  # branch
+path();//  # path
+path();//  # path
+
+input(def __init__(self):);//  # input
+set(self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]);//  # set
+set(self.length = 1);//  # set
+set(self.direction = random.choice([UP, DOWN, LEFT, RIGHT]));//  # set
+set(self.color = GREEN);//  # set
+set(self.score = 0);//  # set
+set(self.game_over = False);//  # set
+end();//  # set  # end
+
+input(def get_head_position(self):);//  # input
+end(return self.positions[0]);//  # end
+end();//  # set  # end
+
+input(def turn(self, point):);//  # input
+branch(if (point[0] * -1, point[1] * -1) == self.direction:);//  # branch
+path();//  # path
+set(return);//  # set
+set();//  # set
+path(else:);//  # path
+set(self.direction = point);//  # set
+bend();//  # set  # bend
+end();//  # set  # end
+
+input(def move(self):);//  # input
+branch(if self.game_over:);//  # branch
+path();//  # path
+set(return);//  # set
+bend();//  # set  # bend
+set(head = self.get_head_position());//  # set
+set(x, y = self.direction);//  # set
+set(new_x = (head[0] + x) % GRID_WIDTH);//  # set
+set(new_y = (head[1] + y) % GRID_HEIGHT);//  # set
+set(new_position = (new_x, new_y));//  # set
+branch(if new_position in self.positions[1:]:);//  # branch
+path();//  # path
+set(self.game_over = True);//  # set
+set(return);//  # set
+bend();//  # set  # bend
+set(self.positions.insert(0, new_position));//  # set
+branch(if len(self.positions) > self.length:);//  # branch
+path();//  # path
+set(self.positions.pop());//  # set
+bend();//  # set  # bend
+end();//  # set  # end
+
+input(def reset(self):);//  # input
+set(self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]);//  # set
+set(self.length = 1);//  # set
+set(self.direction = random.choice([UP, DOWN, LEFT, RIGHT]));//  # set
+set(self.score = 0);//  # set
+set(self.game_over = False);//  # set
+end();//  # set  # end
+
+input(def draw(self, surface):);//  # input
+loop(for i, position in enumerate(self.positions):);//  # loop
+set(rect = pygame.Rect(position[0] * GRID_SIZE, position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE));//  # set
+branch(if i == 0:);//  # Head is a slightly different color# branch
+path();//  # path
+set(pygame.draw.rect(surface, DARK_GREEN, rect));//  # set
+set();//  # set
+path(else:);//  # path
+set(pygame.draw.rect(surface, self.color, rect));//  # set
+bend();//  # set  # bend
+set(pygame.draw.rect(surface, DARK_GREEN, rect, 1));//  # set
+lend();//  # set  # lend
+end();//  # set  # end
+bend();//  # set  # bend
+
+input(class Food:);//  # input
+branch();//  # branch
+path();//  # path
+path();//  # path
+
+input(def __init__(self):);//  # input
+set(self.position = (0, 0));//  # set
+set(self.color = RED);//  # set
+set(self.randomize_position());//  # set
+end();//  # set  # end
+
+input(def randomize_position(self):);//  # input
+set(self.position = (random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1)));//  # set
+end();//  # set  # end
+
+input(def draw(self, surface):);//  # input
+set(rect = pygame.Rect(self.position[0] * GRID_SIZE, self.position[1] * GRID_SIZE, GRID_SIZE, GRID_SIZE));//  # set
+set(pygame.draw.rect(surface, self.color, rect));//  # set
+set(pygame.draw.rect(surface, WHITE, rect, 1));//  # set
+end();//  # set  # end
+bend();//  # set  # bend
+
+input(def draw_grid(surface):);//  # input
+loop(for y in range(0, HEIGHT, GRID_SIZE):);//  # loop
+loop(for x in range(0, WIDTH, GRID_SIZE):);//  # loop
+set(rect = pygame.Rect(x, y, GRID_SIZE, GRID_SIZE));//  # set
+set(pygame.draw.rect(surface, WHITE, rect, 1));//  # set
+lend();//  # set  # lend
+lend();//  # set  # lend
+end();//  # set  # end
+
+input(def main():);//  # input
+set(snake = Snake());//  # set
+set(food = Food());//  # set
+set(font = pygame.font.Font(None, 36));//  # set
+loop(while True:);//  # loop
+loop(for event in pygame.event.get():);//  # loop
+branch(if event.type == pygame.QUIT:);//  # branch
+path();//  # path
+set(pygame.quit());//  # set
+set(sys.exit());//  # set
+set();//  # set
+path(elif event.type == pygame.KEYDOWN:);//  # path
+branch(if event.key == pygame.K_UP:);//  # branch
+path();//  # path
+set(snake.turn(UP));//  # set
+set();//  # set
+path(elif event.key == pygame.K_DOWN:);//  # path
+set(snake.turn(DOWN));//  # set
+set();//  # set
+path(elif event.key == pygame.K_LEFT:);//  # path
+set(snake.turn(LEFT));//  # set
+set();//  # set
+path(elif event.key == pygame.K_RIGHT:);//  # path
+set(snake.turn(RIGHT));//  # set
+set();//  # set
+path(elif event.key == pygame.K_r and snake.game_over:);//  # path
+set(snake.reset());//  # set
+set(food.randomize_position());//  # set
+bend();//  # set  # bend
+bend();//  # set  # bend
+lend();//  # set  # lend
+branch(if not snake.game_over:);//  # branch
+path();//  # path
+set(snake.move());//  # set
+bend();//  # set  # bend
+branch(if snake.get_head_position() == food.position:);//  # branch
+path();//  # path
+set(snake.length += 1);//  # set
+set(snake.score += 1);//  # set
+set(food.randomize_position());//  # set
+loop(while food.position in snake.positions:);//  # loop
+set(food.randomize_position());//  # set
+lend();//  # set  # lend
+bend();//  # set  # bend
+set(screen.fill(BLACK));//  # set
+set(draw_grid(screen));//  # set
+set(snake.draw(screen));//  # set
+set(food.draw(screen));//  # set
+set(score_text = font.render(f"Score: {snake.score}", True, WHITE));//  # set
+set(screen.blit(score_text, (10, 10)));//  # set
+branch(if snake.game_over:);//  # branch
+path();//  # path
+set(game_over_text = font.render("GAME OVER! Press R to restart", True, WHITE));//  # set
+set(text_rect = game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2)));//  # set
+set(screen.blit(game_over_text, text_rect));//  # set
+bend();//  # set  # bend
+set(pygame.display.flip());//  # set
+set(clock.tick(FPS));//  # set
+lend();//  # set  # lend
+end();//  # set  # end
+branch(if __name__ == "__main__":);//  # branch
+path();//  # path
+set(main());//  # set
+bend();//  # bend
+end();//  # end
+
+
+
+;INSECTA EMBEDDED SESSION INFORMATION
+; 255 16777215 65280 16777088 16711680 13158600 13158600 0 255 255 9895835 6946660 16384
+;    snake.py   #   .
+; notepad.exe
+;INSECTA EMBEDDED ALTSESSION INFORMATION
+; 4294965632 4294966221 1252 3359 59 159   336   4294966373    python.key  0
